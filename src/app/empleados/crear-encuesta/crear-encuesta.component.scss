@@ -1,0 +1,24 @@
+.crear-encuesta {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+
+  input, select {
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .pregunta-card {
+    background: #f3f3f3;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+  }
+
+  button {
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}

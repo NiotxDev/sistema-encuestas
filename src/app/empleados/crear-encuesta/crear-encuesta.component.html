@@ -1,0 +1,48 @@
+<div class="crear-encuesta">
+  <h2>Crear Encuesta</h2>
+
+  <form [formGroup]="encuestaForm" (ngSubmit)="enviarEncuesta()">
+    <label for="titulo">Título de la Encuesta:</label>
+    <input id="titulo" formControlName="titulo" />
+
+    <div formArrayName="preguntas">
+      <div
+        *ngFor="let pregunta of preguntas.controls; let i = index"
+        [formGroupName]="i"
+        class="pregunta-card"
+      >
+        <h3>Pregunta {{ i + 1 }}</h3>
+        <input placeholder="Escribe la pregunta" formControlName="texto" />
+
+        <select formControlName="tipo">
+          <option *ngFor="let tipo of tiposRespuesta" [value]="tipo">
+            {{ tipo }}
+          </option>
+        </select>
+
+        <div formArrayName="opciones">
+          <div
+            *ngFor="let opcion of getOpciones(i).controls; let j = index"
+            [formGroupName]="j"
+          >
+            <input [formControlName]="j" placeholder="Opción de respuesta" />
+            <button type="button" (click)="eliminarOpcion(i, j)">
+              Eliminar
+            </button>
+          </div>
+
+          <button type="button" (click)="agregarOpcion(i)">
+            Agregar Opción
+          </button>
+        </div>
+
+        <button type="button" (click)="eliminarPregunta(i)">
+          Eliminar Pregunta
+        </button>
+      </div>
+    </div>
+
+    <button type="button" (click)="agregarPregunta()">Agregar Pregunta</button>
+    <button type="submit">Guardar Encuesta</button>
+  </form>
+</div>

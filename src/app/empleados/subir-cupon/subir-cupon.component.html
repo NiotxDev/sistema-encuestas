@@ -1,0 +1,38 @@
+<div class="subir-cupon">
+  <h2>Subir Cupón</h2>
+
+  <label>Código del cupón:</label>
+  <input
+    type="text"
+    [value]="codigoCupon"
+    (input)="onCodigoChange($event)"
+    placeholder="Ej: DESCUENTO2025"
+  />
+
+  <label>Archivo visual (imagen o PDF):</label>
+  <input
+    type="file"
+    (change)="onArchivoChange($event)"
+    accept=".png, .jpg, .jpeg, .pdf"
+  />
+
+  <div *ngIf="vistaPreviaUrl">
+  <h3>Vista previa:</h3>
+
+  <img
+    *ngIf="esImagen()"
+    [src]="vistaPreviaUrl"
+    alt="Vista previa del cupón"
+    width="300"
+  />
+
+  <embed
+    *ngIf="esPDF()"
+    [src]="vistaPreviaUrl"
+    width="100%"
+    height="400px"
+    type="application/pdf"
+  />
+</div>
+  <button (click)="guardarCupon()">Guardar Cupón</button>
+</div>

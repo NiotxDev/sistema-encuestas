@@ -1,0 +1,16 @@
+<div class="subir-clientes">
+  <h2>Subir Clientes</h2>
+
+  <input
+    type="file"
+    (change)="onFileChange($event)"
+    accept=".xlsx, .xls"
+  />
+
+  <div *ngIf="correos.length > 0">
+    <h3>Correos cargados:</h3>
+    <ul>
+      <li *ngFor="let correo of correos">{{ correo }}</li>
+    </ul>
+  </div>
+</div>
