@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule,provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { provideHttpClient,withFetch,withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,14 +15,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     NgbModule,
   ],
   providers: [
-    provideClientHydration(withEventReplay())
+    provideClientHydration(withEventReplay()),
+
+    provideHttpClient(
+      withFetch(),
+      withInterceptorsFromDi()
+    )
   ],
   bootstrap: [AppComponent]
 })

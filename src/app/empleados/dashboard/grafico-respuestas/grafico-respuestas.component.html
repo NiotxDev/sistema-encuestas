@@ -1,1 +1,8 @@
-<p>grafico-respuestas works!</p>
+<div class="grafico-container">
+  <canvas *ngIf="isBrowser"
+          baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType">
+  </canvas>
+</div>

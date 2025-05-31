@@ -8,7 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: 'crear-encuesta', pathMatch: 'full' },
+  // { path: '', redirectTo: 'crear-encuesta', pathMatch: 'full' },
   { path: 'crear-encuesta', component: CrearEncuestaComponent },
   { path: 'subir-clientes', component: SubirClientesComponent },
   { path: 'subir-cupon', component: SubirCuponComponent },

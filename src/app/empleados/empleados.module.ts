@@ -2,6 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { NgChartsModule  } from 'ng2-charts'
+
 import { EmpleadosRoutingModule } from './empleados-routing.module';
 import { CrearEncuestaComponent } from './crear-encuesta/crear-encuesta.component';
 import { SubirClientesComponent } from './subir-clientes/subir-clientes.component';
@@ -32,7 +38,12 @@ import { ResumenFechasComponent } from './dashboard/resumen-fechas/resumen-fecha
     CommonModule,
     EmpleadosRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatIconModule,
+    NgChartsModule
   ]
 })
 export class EmpleadosModule { }

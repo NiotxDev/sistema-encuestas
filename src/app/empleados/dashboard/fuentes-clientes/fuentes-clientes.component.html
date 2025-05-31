@@ -1,1 +1,12 @@
-<p>fuentes-clientes works!</p>
+<div class="grafico-container">
+  <h3>Fuentes de Clientes</h3>
+  <canvas *ngIf="isBrowser"
+          baseChart
+          [data]="doughnutChartData"
+          [type]="doughnutChartType"
+          [options]="doughnutChartOptions">
+  </canvas>
+  <div *ngIf="!isBrowser">
+    <p>Gráfico de distribución de fuentes (solo visible en el navegador)</p>
+  </div>
+</div>

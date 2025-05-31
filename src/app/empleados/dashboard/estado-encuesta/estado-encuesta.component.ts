@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './estado-encuesta.component.scss'
 })
 export class EstadoEncuestaComponent {
+  estado = {
+    encuestasCreadas: 12,
+    respuestasRecibidas: 37,
+    clientesPendientes: 8
+  };
 
 }

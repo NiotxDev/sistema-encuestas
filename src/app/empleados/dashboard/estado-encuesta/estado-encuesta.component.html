@@ -1,1 +1,16 @@
-<p>estado-encuesta works!</p>
+<div class="estado-container">
+  <mat-card class="estado-card">
+    <mat-card-title>Encuestas Creadas</mat-card-title>
+    <mat-card-content>{{ estado.encuestasCreadas }}</mat-card-content>
+  </mat-card>
+
+  <mat-card class="estado-card">
+    <mat-card-title>Respuestas Recibidas</mat-card-title>
+    <mat-card-content>{{ estado.respuestasRecibidas }}</mat-card-content>
+  </mat-card>
+
+  <mat-card class="estado-card">
+    <mat-card-title>Clientes Pendientes</mat-card-title>
+    <mat-card-content>{{ estado.clientesPendientes }}</mat-card-content>
+  </mat-card>
+</div>

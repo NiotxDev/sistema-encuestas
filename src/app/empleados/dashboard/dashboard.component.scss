@@ -1,12 +1,19 @@
 .dashboard-container {
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-}
+  padding: 2rem;
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  h2.titulo {
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  section {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+  }
 }

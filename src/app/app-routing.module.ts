@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo : './empleados/dashboard',
+    pathMatch: 'full'
+  },
+  {
     path: 'empleados',
     loadChildren: () => import('./empleados/empleados.module').then(m => m.EmpleadosModule)
   },
@@ -10,11 +15,11 @@ const routes: Routes = [
     path: 'clientes',
     loadChildren: () => import('./clientes/clientes.module').then(m => m.ClientesModule)
   },
-  {
-    path: '',
-    redirectTo: '/empleados',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '',
+  //   redirectTo: '/empleados',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({

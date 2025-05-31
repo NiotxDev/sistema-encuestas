@@ -1,0 +1,31 @@
+.tarjetas-kpi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  padding: 16px;
+  border-top: 4px solid transparent;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.kpi-icon {
+  font-size: 40px;
+}
+
+.kpi-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.kpi-label {
+  font-size: 14px;
+  color: #666;
+}

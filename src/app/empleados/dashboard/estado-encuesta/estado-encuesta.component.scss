@@ -1,0 +1,10 @@
+.estado-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.estado-card {
+  flex: 1 1 200px;
+  text-align: center;
+}

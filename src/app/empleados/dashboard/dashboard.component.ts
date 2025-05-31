@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +6,13 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
-
+export class DashboardComponent implements OnInit{
+  totalEncuestas = 10;
+  respuestas = 7;
+  get noResponden() {
+    return this.totalEncuestas - this.respuestas;
+  }
+  constructor() {}
+  
+  ngOnInit(): void {}
 }

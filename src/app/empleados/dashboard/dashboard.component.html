@@ -1,13 +1,34 @@
-<div class="dashboard-container">
-  <app-estado-encuesta></app-estado-encuesta>
+<div class="dashboard-container mat-typography">
 
-  <div class="dashboard-grid">
+  <!-- TÍTULO -->
+  <h2 class="titulo">Panel de Resultados</h2>
+
+  <!-- TARJETAS DE KPIs -->
+  <app-tarjetas-resumen></app-tarjetas-resumen>
+
+  <!-- GRÁFICO PRINCIPAL DE RESPUESTAS -->
+  <section class="grafico">
     <app-grafico-respuestas></app-grafico-respuestas>
-    <app-top-respuestas></app-top-respuestas>
-  </div>
+  </section>
 
-  <div class="dashboard-grid">
+  <!-- TOP RESPUESTAS DESTACADAS -->
+  <section class="top-respuestas">
+    <app-top-respuestas></app-top-respuestas>
+  </section>
+
+  <!-- ESTADO GENERAL DE LA ENCUESTA -->
+  <section class="estado-encuesta">
+    <app-estado-encuesta></app-estado-encuesta>
+  </section>
+
+  <!-- FUENTES DE CLIENTES (si aplica) -->
+  <section class="fuentes-clientes">
     <app-fuentes-clientes></app-fuentes-clientes>
+  </section>
+
+  <!-- RESUMEN POR RANGO DE FECHAS -->
+  <section class="resumen-fechas">
     <app-resumen-fechas></app-resumen-fechas>
-  </div>
+  </section>
+
 </div>
