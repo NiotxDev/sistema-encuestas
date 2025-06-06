@@ -1,1 +1,12 @@
-<p>resumen-fechas works!</p>
+<div class="grafico-container">
+  <h3>Resumen por Fechas</h3>
+
+  <ng-container *ngIf="isBrowser">
+    <canvas baseChart
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [type]="barChartType">
+  </canvas>
+  </ng-container>
+</div>
+

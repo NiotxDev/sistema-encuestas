@@ -1,1 +1,24 @@
-<p>responder-encuesta works!</p>
+<form [formGroup]="formulario" (ngSubmit)="enviar()">
+  <div formArrayName="respuestas">
+    <div *ngFor="let pregunta of preguntas; let i = index">
+      <label>{{ pregunta.texto }}</label>
+
+      <!-- Opción múltiple -->
+      <ng-container *ngIf="pregunta.tipo === 'opcion_multiple'">
+        <select [formControlName]="i">
+          <option *ngFor="let op of pregunta.opciones" [value]="op">
+            {{ op }}
+          </option>
+        </select>
+      </ng-container>
+
+      <!-- Texto libre -->
+      <ng-container *ngIf="pregunta.tipo === 'texto'">
+        <input type="text" [formControlName]="i" />
+      </ng-container>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="formulario.invalid">Enviar</button>
+</form>
+

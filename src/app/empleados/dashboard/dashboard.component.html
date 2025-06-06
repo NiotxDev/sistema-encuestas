@@ -3,30 +3,49 @@
   <!-- TÍTULO -->
   <h2 class="titulo">Panel de Resultados</h2>
 
-  <!-- TARJETAS DE KPIs -->
+  <!-- SECCIÓN DE BOTONES -->
+  <section class="acciones-rapidas">
+    <h3>Acciones Rápidas</h3>
+    <div class="botones-empleado">
+      <button mat-raised-button color="primary" [routerLink]="['/empleados/subir-clientes']">
+        <mat-icon>group_add</mat-icon>
+        Subir Clientes
+      </button>
+      <button mat-raised-button color="accent" [routerLink]="['/empleados/subir-cupon']">
+        <mat-icon>card_giftcard</mat-icon>
+        Subir Cupón
+      </button>
+      <button mat-raised-button color="warn" [routerLink]="['/empleados/crear-encuesta']">
+        <mat-icon>post_add</mat-icon>
+        Crear Encuesta
+      </button>
+    </div>
+  </section>
+
+  <!-- KPIs -->
   <app-tarjetas-resumen></app-tarjetas-resumen>
 
-  <!-- GRÁFICO PRINCIPAL DE RESPUESTAS -->
+  <!-- GRÁFICO -->
   <section class="grafico">
     <app-grafico-respuestas></app-grafico-respuestas>
   </section>
 
-  <!-- TOP RESPUESTAS DESTACADAS -->
+  <!-- TOP RESPUESTAS -->
   <section class="top-respuestas">
     <app-top-respuestas></app-top-respuestas>
   </section>
 
-  <!-- ESTADO GENERAL DE LA ENCUESTA -->
+  <!-- ESTADO ENCUESTA -->
   <section class="estado-encuesta">
     <app-estado-encuesta></app-estado-encuesta>
   </section>
 
-  <!-- FUENTES DE CLIENTES (si aplica) -->
+  <!-- FUENTES -->
   <section class="fuentes-clientes">
     <app-fuentes-clientes></app-fuentes-clientes>
   </section>
 
-  <!-- RESUMEN POR RANGO DE FECHAS -->
+  <!-- RESUMEN FECHAS -->
   <section class="resumen-fechas">
     <app-resumen-fechas></app-resumen-fechas>
   </section>

@@ -1,1 +1,11 @@
-<p>top-respuestas works!</p>
+<div class="grafico-container">
+  <h3>Top Respuestas</h3>
+
+  <ng-container *ngIf="isBrowser">
+    <canvas baseChart
+    [data]="horizontalBarChartData"
+    [options]="horizontalBarChartOptions"
+    [type]="horizontalBarChartType">
+    </canvas>
+  </ng-container>
+</div>
