@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ResponderEncuestaComponent } from './responder-encuesta/responder-encuesta.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'responder', pathMatch: 'full' },
-  { path: 'responder', component: ResponderEncuestaComponent }
+  // { path: '', redirectTo: 'responder', pathMatch: 'full' },
+  { path: 'responder-encuesta', component: ResponderEncuestaComponent, },
 ];
 
 @NgModule({

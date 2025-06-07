@@ -1,0 +1,124 @@
+/* src/app/clientes/responder-encuesta/responder-encuesta.component.scss */
+.encuesta-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.encuesta-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.empresa-logo {
+  max-width: 150px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #0056b3;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+.pregunta-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.pregunta-card h3 {
+  font-size: 1.4em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.respuestas-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.respuesta-item {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.respuesta-item input[type="radio"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.respuesta-item label {
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="submit"]:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.encuesta-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.cupon-details {
+  background-color: #e6f7ff;
+  border: 1px dashed #99ccff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+  display: inline-block; /* Para centrarlo si es necesario */
+}
+
+.cupon-details p {
+  margin: 5px 0;
+  font-size: 1.1em;
+}
+
+.cupon-details strong {
+  color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+}

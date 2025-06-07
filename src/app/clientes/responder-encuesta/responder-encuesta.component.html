@@ -1,24 +1,75 @@
-<form [formGroup]="formulario" (ngSubmit)="enviar()">
-  <div formArrayName="respuestas">
-    <div *ngFor="let pregunta of preguntas; let i = index">
-      <label>{{ pregunta.texto }}</label>
+<div class="encuesta-container" *ngIf="isLoading">
+  <p>Cargando encuesta...</p>
+</div>
 
-      <!-- Opción múltiple -->
-      <ng-container *ngIf="pregunta.tipo === 'opcion_multiple'">
-        <select [formControlName]="i">
-          <option *ngFor="let op of pregunta.opciones" [value]="op">
-            {{ op }}
-          </option>
-        </select>
-      </ng-container>
+<div class="encuesta-container" *ngIf="error">
+  <p class="error-message">{{ error }}</p>
+</div>
 
-      <!-- Texto libre -->
-      <ng-container *ngIf="pregunta.tipo === 'texto'">
-        <input type="text" [formControlName]="i" />
-      </ng-container>
-    </div>
+<div
+  class="encuesta-container"
+  *ngIf="formularioEncuesta && !isLoading && !error"
+>
+  <div class="encuesta-header">
+    <img
+      *ngIf="formularioEncuesta.empresa?.logoUrl"
+      [src]="formularioEncuesta.empresa.logoUrl"
+      alt="{{ formularioEncuesta.empresa.nombre }} Logo"
+      class="empresa-logo"
+    />
+    <h1>{{ formularioEncuesta.encuesta.titulo }}</h1>
+    <p>{{ formularioEncuesta.encuesta.descripcion }}</p>
   </div>
 
-  <button type="submit" [disabled]="formulario.invalid">Enviar</button>
-</form>
+  <form [formGroup]="encuestaForm" (ngSubmit)="submitEncuesta()">
+    <div
+      formArrayName="preguntas"
+      *ngFor="let preguntaGroup of preguntasFormArray.controls; let i = index"
+    >
+      <div [formGroupName]="i" class="pregunta-card">
+        <h3>
+          {{ i + 1 }}.
+          {{ formularioEncuesta.preguntas[i].textoPregunta }}
+        </h3>
+        <div class="respuestas-group">
+          <div
+            *ngFor="let respuesta of formularioEncuesta.preguntas[i].respuestas"
+            class="respuesta-item"
+          >
+            <input
+              type="radio"
+              [id]="'pregunta' + formularioEncuesta.preguntas[i].idPregunta + 'respuesta' + respuesta.idRespuesta"
+              [name]="'pregunta' + formularioEncuesta.preguntas[i].idPregunta"
+              [value]="respuesta.idRespuesta"
+              (change)="onRespuestaChange(formularioEncuesta.preguntas[i].idPregunta, respuesta.idRespuesta)"
+              [checked]="isRespuestaSelected(formularioEncuesta.preguntas[i].idPregunta, respuesta.idRespuesta)"
+            />
+            <label
+              [for]="'pregunta' + formularioEncuesta.preguntas[i].idPregunta + 'respuesta' + respuesta.idRespuesta"
+            >
+              {{ respuesta.texto }}
+            </label>
+          </div>
+        </div>
+        <div *ngIf="preguntaGroup.get('respuestaElegida')?.touched && preguntaGroup.get('respuestaElegida')?.errors?.['required']"
+             class="error-message">
+          Por favor, selecciona una respuesta.
+        </div>
+      </div>
+    </div>
 
+    <button type="submit" [disabled]="encuestaForm.invalid">
+      Enviar Encuesta
+    </button>
+  </form>
+
+  <div class="encuesta-footer" *ngIf="formularioEncuesta.encuesta.cupon">
+    <h2>¡Gracias por responder!</h2>
+    <p>¡Aquí tienes un cupón de agradecimiento!</p>
+    <div class="cupon-details">
+      <p><strong>Código:</strong> {{ formularioEncuesta.encuesta.cupon.codigoCupon }}</p>
+      <p><strong>Descripción:</strong> {{ formularioEncuesta.encuesta.cupon.descripcion }}</p>
+      <p><strong>Válido hasta:</strong> {{ formularioEncuesta.encuesta.cupon.fechaExpiracion | date:'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+</div>
