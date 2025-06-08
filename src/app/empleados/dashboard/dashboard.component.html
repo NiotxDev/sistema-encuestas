@@ -1,53 +1,93 @@
-<div class="dashboard-container mat-typography">
-
-  <!-- TÍTULO -->
-  <h2 class="titulo">Panel de Resultados</h2>
-
-  <!-- SECCIÓN DE BOTONES -->
-  <section class="acciones-rapidas">
-    <h3>Acciones Rápidas</h3>
-    <div class="botones-empleado">
-      <button mat-raised-button color="primary" [routerLink]="['/empleados/subir-clientes']">
-        <mat-icon>group_add</mat-icon>
-        Subir Clientes
-      </button>
-      <button mat-raised-button color="accent" [routerLink]="['/empleados/subir-cupon']">
-        <mat-icon>card_giftcard</mat-icon>
-        Subir Cupón
-      </button>
-      <button mat-raised-button color="warn" [routerLink]="['/empleados/crear-encuesta']">
-        <mat-icon>post_add</mat-icon>
-        Crear Encuesta
+<div class="dashboard-layout">
+  <div class="dashboard-sidebar">
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="Logo" class="logo" /> <span>LOGO</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item active">
+          <mat-icon>dashboard</mat-icon>
+          <a [routerLink]="['/dashboard']">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <mat-icon>group_add</mat-icon>
+          <a [routerLink]="['/empleados/subir-clientes']">Upload Clients</a>
+        </li>
+        <li class="nav-item">
+          <mat-icon>folder</mat-icon>
+          <a [routerLink]="['/empleados/subir-cupon']">Upload Coupon</a>
+        </li>
+        <li class="nav-item">
+          <mat-icon>notifications</mat-icon>
+          <a [routerLink]="['/notifications']">Notification</a>
+        </li>
+         <li class="nav-item">
+          <mat-icon>post_add</mat-icon>
+          <a [routerLink]="['/empleados/crear-encuesta']">Create Survey</a>
+        </li>
+        <li class="nav-item">
+          <mat-icon>mail</mat-icon>
+          <a [routerLink]="['/messages']">Messages</a>
+        </li>
+        <li class="nav-item">
+          <mat-icon>help_center</mat-icon>
+          <a [routerLink]="['/help']">Help Center</a>
+        </li>
+        <li class="nav-item">
+          <mat-icon>settings</mat-icon>
+          <a [routerLink]="['/settings']">Setting</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="logout-section">
+      <button mat-raised-button class="logout-btn">
+        <mat-icon>logout</mat-icon>
+        LOGOUT
       </button>
     </div>
-  </section>
+  </div>
 
-  <!-- KPIs -->
-  <app-tarjetas-resumen></app-tarjetas-resumen>
+  <div class="dashboard-main-content">
+    <header class="dashboard-header">
+      <div class="search-bar">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Search" />
+      </div>
+      <div class="user-info">
+        <mat-icon>notifications</mat-icon>
+        <mat-icon>home</mat-icon>
+        <span class="user-name">ROBERT WILLIAM</span>
+        <img src="assets/user-avatar.png" alt="User Avatar" class="user-avatar" />
+        <mat-icon>arrow_drop_down</mat-icon>
+      </div>
+    </header>
 
-  <!-- GRÁFICO -->
-  <section class="grafico">
-    <app-grafico-respuestas></app-grafico-respuestas>
-  </section>
+    <div class="dashboard-content-area">
+      <h2 class="titulo">Panel de Resultados</h2>
 
-  <!-- TOP RESPUESTAS -->
-  <section class="top-respuestas">
-    <app-top-respuestas></app-top-respuestas>
-  </section>
+      <section class="kpi-section">
+        <app-tarjetas-resumen></app-tarjetas-resumen>
+      </section>
 
-  <!-- ESTADO ENCUESTA -->
-  <section class="estado-encuesta">
-    <app-estado-encuesta></app-estado-encuesta>
-  </section>
+      <div class="main-charts-row">
+        <section class="dashboard-box main-chart-area">
+          <app-grafico-respuestas></app-grafico-respuestas>
+        </section>
+        <div class="side-charts-column">
+          <section class="dashboard-box">
+            <app-top-respuestas></app-top-respuestas>
+          </section>
+          <section class="dashboard-box">
+            <app-fuentes-clientes></app-fuentes-clientes>
+          </section>
+        </div>
+      </div>
 
-  <!-- FUENTES -->
-  <section class="fuentes-clientes">
-    <app-fuentes-clientes></app-fuentes-clientes>
-  </section>
-
-  <!-- RESUMEN FECHAS -->
-  <section class="resumen-fechas">
-    <app-resumen-fechas></app-resumen-fechas>
-  </section>
-
+      <div class="bottom-row">
+        <section class="dashboard-box calendar-area">
+          <app-resumen-fechas></app-resumen-fechas>
+        </section>
+        </div>
+    </div>
+  </div>
 </div>
