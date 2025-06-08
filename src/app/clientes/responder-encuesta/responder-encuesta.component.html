@@ -39,11 +39,9 @@
             <input
               type="radio"
               [id]="'pregunta' + formularioEncuesta.preguntas[i].idPregunta + 'respuesta' + respuesta.idRespuesta"
-              [name]="'pregunta' + formularioEncuesta.preguntas[i].idPregunta"
               [value]="respuesta.idRespuesta"
-              (change)="onRespuestaChange(formularioEncuesta.preguntas[i].idPregunta, respuesta.idRespuesta)"
-              [checked]="isRespuestaSelected(formularioEncuesta.preguntas[i].idPregunta, respuesta.idRespuesta)"
-            />
+              formControlName="respuestaElegida"
+              />
             <label
               [for]="'pregunta' + formularioEncuesta.preguntas[i].idPregunta + 'respuesta' + respuesta.idRespuesta"
             >
@@ -63,13 +61,21 @@
     </button>
   </form>
 
-  <div class="encuesta-footer" *ngIf="formularioEncuesta.encuesta.cupon">
-    <h2>¡Gracias por responder!</h2>
-    <p>¡Aquí tienes un cupón de agradecimiento!</p>
-    <div class="cupon-details">
-      <p><strong>Código:</strong> {{ formularioEncuesta.encuesta.cupon.codigoCupon }}</p>
-      <p><strong>Descripción:</strong> {{ formularioEncuesta.encuesta.cupon.descripcion }}</p>
-      <p><strong>Válido hasta:</strong> {{ formularioEncuesta.encuesta.cupon.fechaExpiracion | date:'dd/MM/yyyy' }}</p>
+  <div class="modal-overlay" *ngIf="showCuponPopup">
+  <div class="modal-content">
+    <h2>¡Encuesta enviada exitosamente!</h2>
+    <p>¡Gracias por tu tiempo!</p>
+
+    <div *ngIf="cuponInfo" class="cupon-details-popup">
+      <h3>Aquí tienes tu cupón de agradecimiento:</h3>
+      <p><strong>Código:</strong> {{ cuponInfo.codigoCupon }}</p>
+      <p><strong>Descripción:</strong> {{ cuponInfo.descripcion }}</p>
+      <p><strong>Válido hasta:</strong> {{ cuponInfo.fechaExpiracion | date:'dd/MM/yyyy' }}</p>
     </div>
+    <div *ngIf="!cuponInfo" class="no-cupon-message">
+      <p>No hay un cupón disponible para esta encuesta.</p>
+    </div>
+
+    <button class="close-modal-btn" (click)="closeCuponPopup()">Cerrar</button>
   </div>
 </div>

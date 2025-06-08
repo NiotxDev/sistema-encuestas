@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EncuestasService } from '../../core/services/encuestas.service';
-import { FormularioEncuestaGetResponse, Pregunta, RespuestaClienteRequest } from '../../shared/models/encuestas.model';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { FormularioEncuestaGetResponse, Pregunta, Cupon ,RespuestaClienteRequest } from '../../shared/models/encuestas.model';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl, AbstractControl} from '@angular/forms';
+
 
 @Component({
   selector: 'app-responder-encuesta',
@@ -18,8 +18,11 @@ export class ResponderEncuestaComponent implements OnInit{
   correoCliente: string | null = null;
   isLoading = true;
   error: string | null = null;
-  // Para almacenar las respuestas seleccionadas temporalmente
-  respuestasSeleccionadas: { [idPregunta: number]: number } = {};
+
+  //Variables del Pop-Up con respecto al cupon
+  showCuponPopup = false; //Controlla su visibilidad
+  cuponInfo: Cupon | null = null; //Almacenará los datos del cupon a mostrar
+
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -81,18 +84,10 @@ export class ResponderEncuestaComponent implements OnInit{
     }
   }
   
-  // Método para manejar la selección de una respuesta (radio button)
-  onRespuestaChange(idPregunta: number, idRespuestaElegida: number): void {
-    this.respuestasSeleccionadas[idPregunta] = idRespuestaElegida;
-  }
-  // Método para verificar si una respuesta está seleccionada
-  isRespuestaSelected(idPregunta: number, idRespuesta: number): boolean {
-    return this.respuestasSeleccionadas[idPregunta] === idRespuesta;
-  }
   submitEncuesta(): void {
+    this.encuestaForm.markAllAsTouched();
     if (this.encuestaForm.invalid) {
       this.error = 'Por favor, responde todas las preguntas.';
-      this.encuestaForm.markAllAsTouched(); // Marca todos los controles como 'touched' para mostrar errores
       return;
     }
 
@@ -100,23 +95,28 @@ export class ResponderEncuestaComponent implements OnInit{
       this.error = 'No se ha cargado la encuesta para enviar.';
       return;
     }
+    //Columna vertebral del envio de respuestas
     const respuestasParaEnviar: RespuestaClienteRequest[] = [];
-    this.formularioEncuesta.preguntas.forEach(pregunta => {
-        const respuestaElegida = this.respuestasSeleccionadas[pregunta.idPregunta];
-        if (respuestaElegida) {
-            // Encuentra la respuesta en el conjunto de respuestas de la pregunta
-            const conjuntoRespuesta = pregunta.respuestas.find(r => r.idRespuesta === respuestaElegida);
-            if (conjuntoRespuesta) {
-                respuestasParaEnviar.push({
-                    idPregunta: pregunta.idPregunta,
-                    idConjuntoRespuesta: conjuntoRespuesta.idConjuntoRespuesta, // O el que corresponda
-                    idRespuestaElegida: respuestaElegida,
-                });
-            }
+
+    this.preguntasFormArray.controls.forEach((preguntaGroup: AbstractControl, index: number) => {
+      const formValue = preguntaGroup.value;
+      const originalPregunta = this.formularioEncuesta!.preguntas[index];
+
+      if (formValue.respuestaElegida) {
+        const selectedOption = originalPregunta.respuestas.find(
+          (res) => res.idRespuesta === formValue.respuestaElegida
+        );
+
+        if (selectedOption) {
+          respuestasParaEnviar.push({
+            idPregunta: formValue.idPregunta,
+            idConjuntoRespuesta: selectedOption.idConjuntoRespuesta,
+            idRespuestaElegida: formValue.respuestaElegida,
+          });
         }
+      }
     });
-
-
+    
     const requestData = {
       idEncuesta: this.formularioEncuesta.encuesta.idEncuesta,
       correoCliente: this.correoCliente!,
@@ -125,8 +125,20 @@ export class ResponderEncuestaComponent implements OnInit{
 
     this.encuestasService.postRespuestasEncuesta(requestData).subscribe({
       next: (response) => {
-        alert('Encuesta enviada exitosamente. ¡Gracias!');
-        this.router.navigate(['/gracias-por-responder']); // Redirigir a una página de agradecimiento
+        //alert('Encuesta enviada exitosamente. ¡Gracias!');
+        //Mostramos el PopUp
+        // 1. Asignar el cupón si existe 
+        if (this.formularioEncuesta?.encuesta.cupon) {
+          this.cuponInfo = this.formularioEncuesta.encuesta.cupon;
+        } else {
+          this.cuponInfo = null;
+        }
+        //Mostramos el PopUp
+        this.showCuponPopup= true;
+        // Opcional: Podrías redirigir después de un tiempo o al cerrar el pop-up
+        // setTimeout(() => {
+        //   this.router.navigate(['/gracias-por-responder']);
+        // }, 5000); // Redirige después de 5 segundos
       },
       error: (err) => {
         console.error('Error al enviar la encuesta:', err);
@@ -134,5 +146,13 @@ export class ResponderEncuestaComponent implements OnInit{
           'Hubo un error al enviar tu encuesta. Por favor, intenta de nuevo.';
       },
     });
+  }
+  // Nuevo método para cerrar el pop-up y redirigir
+  closeCuponPopup(): void {
+    this.showCuponPopup = false;
+    // Opcional: Limpia el formulario. Aunque la redirección lo limpiaría al cargar de nuevo,
+    // esto asegura que el estado interno del formulario se resetee inmediatamente.
+    this.encuestaForm.reset();
+    this.router.navigate(['/gracias-por-responder']); // Redirige a la página de agradecimiento
   }
 }
