@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { NgChartsModule  } from 'ng2-charts'
 
 import { EmpleadosRoutingModule } from './empleados-routing.module';
@@ -19,6 +20,7 @@ import { TopRespuestasComponent } from './dashboard/top-respuestas/top-respuesta
 import { EstadoEncuestaComponent } from './dashboard/estado-encuesta/estado-encuesta.component';
 import { FuentesClientesComponent } from './dashboard/fuentes-clientes/fuentes-clientes.component';
 import { ResumenFechasComponent } from './dashboard/resumen-fechas/resumen-fechas.component';
+import { ListaEncuestasComponent } from './lista-encuestas/lista-encuestas.component';
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { ResumenFechasComponent } from './dashboard/resumen-fechas/resumen-fecha
     TopRespuestasComponent,
     EstadoEncuestaComponent,
     FuentesClientesComponent,
-    ResumenFechasComponent
+    ResumenFechasComponent,
+    ListaEncuestasComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +46,7 @@ import { ResumenFechasComponent } from './dashboard/resumen-fechas/resumen-fecha
     MatGridListModule,
     MatToolbarModule,
     MatIconModule,
+    MatTableModule,
     NgChartsModule
   ]
 })

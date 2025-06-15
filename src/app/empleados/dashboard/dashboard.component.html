@@ -1,7 +1,7 @@
 <div class="dashboard-layout">
   <div class="dashboard-sidebar">
     <div class="logo-section">
-      <img src="assets/logo.png" alt="Logo" class="logo" /> <span>LOGO</span>
+      <img src="assets/logo.png" alt="logo" class="logo">
     </div>
     <nav class="sidebar-nav">
       <ul>
@@ -10,24 +10,28 @@
           <a [routerLink]="['/dashboard']">Dashboard</a>
         </li>
         <li class="nav-item">
+          <mat-icon>assignment</mat-icon>
+          <a [routerLink]="['/empleados/lista-encuestas']">Mis Encuestas</a>
+        </li>
+        <li class="nav-item">
           <mat-icon>group_add</mat-icon>
-          <a [routerLink]="['/empleados/subir-clientes']">Upload Clients</a>
+          <a [routerLink]="['/empleados/subir-clientes']">Subir Clients</a>
         </li>
         <li class="nav-item">
           <mat-icon>folder</mat-icon>
-          <a [routerLink]="['/empleados/subir-cupon']">Upload Coupon</a>
+          <a [routerLink]="['/empleados/subir-cupon']">Actualizar Cupones</a>
         </li>
         <li class="nav-item">
           <mat-icon>notifications</mat-icon>
-          <a [routerLink]="['/notifications']">Notification</a>
+          <a [routerLink]="['/notifications']">Notificaciones</a>
         </li>
-         <li class="nav-item">
+        <li class="nav-item">
           <mat-icon>post_add</mat-icon>
-          <a [routerLink]="['/empleados/crear-encuesta']">Create Survey</a>
+          <a [routerLink]="['/empleados/crear-encuesta']">Create Encuesta</a>
         </li>
         <li class="nav-item">
           <mat-icon>mail</mat-icon>
-          <a [routerLink]="['/messages']">Messages</a>
+          <a [routerLink]="['/messages']">Mensajes</a>
         </li>
         <li class="nav-item">
           <mat-icon>help_center</mat-icon>
@@ -35,12 +39,12 @@
         </li>
         <li class="nav-item">
           <mat-icon>settings</mat-icon>
-          <a [routerLink]="['/settings']">Setting</a>
+          <a [routerLink]="['/settings']">Ajustes</a>
         </li>
       </ul>
     </nav>
     <div class="logout-section">
-      <button mat-raised-button class="logout-btn">
+      <button mat-raised-button class="logout-btn" (click)="logout()">
         <mat-icon>logout</mat-icon>
         LOGOUT
       </button>
@@ -56,8 +60,12 @@
       <div class="user-info">
         <mat-icon>notifications</mat-icon>
         <mat-icon>home</mat-icon>
-        <span class="user-name">ROBERT WILLIAM</span>
-        <img src="assets/user-avatar.png" alt="User Avatar" class="user-avatar" />
+        <span class="user-name">{{ userName || 'JOSE CARLOS' }}</span>
+        <img
+          [src]="userAvatarUrl || 'assets/profile.png'"
+          alt="Avatar del Usuario"
+          class="user-avatar"
+        />
         <mat-icon>arrow_drop_down</mat-icon>
       </div>
     </header>
@@ -87,7 +95,7 @@
         <section class="dashboard-box calendar-area">
           <app-resumen-fechas></app-resumen-fechas>
         </section>
-        </div>
+      </div>
     </div>
   </div>
 </div>

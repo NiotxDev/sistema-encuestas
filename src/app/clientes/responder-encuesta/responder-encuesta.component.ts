@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EncuestasService } from '../../core/services/encuestas.service';
-import { FormularioEncuestaGetResponse, Pregunta, Cupon ,RespuestaClienteRequest } from '../../shared/models/encuestas.model';
+import { FormularioEncuestaGetResponse, Pregunta, CuponInfo ,RespuestaClienteRequest } from '../../shared/models/encuestas.model';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl, AbstractControl} from '@angular/forms';
 
 
@@ -21,7 +21,7 @@ export class ResponderEncuestaComponent implements OnInit{
 
   //Variables del Pop-Up con respecto al cupon
   showCuponPopup = false; //Controlla su visibilidad
-  cuponInfo: Cupon | null = null; //Almacenará los datos del cupon a mostrar
+  cuponInfo: CuponInfo | null = null; //Almacenará los datos del cupon a mostrar
 
 
   constructor(private route: ActivatedRoute,

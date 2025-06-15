@@ -6,7 +6,7 @@ export interface Empresa {
   logoUrl: string;
 }
 
-export interface Cupon {
+export interface CuponInfo {
   idCupon: number;
   codigoCupon: string;
   descripcion: string;
@@ -17,7 +17,8 @@ export interface Encuesta {
   idEncuesta: number;
   titulo: string;
   descripcion: string;
-  cupon: Cupon | null; // Puede ser null si no hay cupón
+  cupon: CuponInfo | null; // Puede ser null si no hay cupón
+  fechaCreacion: Date;
 }
 
 export interface RespuestaPregunta {
@@ -32,6 +33,20 @@ export interface Pregunta {
   textoPregunta: string;
   orden: number;
   respuestas: RespuestaPregunta[];
+}
+
+export interface OpcionRespuestaCombo { // Nueva interfaz para las opciones del combo
+  idRespuesta: number; // Coincide con idRespuesta de tu JSON
+  texto: string;
+  orden: number;
+  // ... otras propiedades de opción
+}
+
+// Interfaz para el "combo" de respuestas predefinidas (si tu API lo devuelve así)
+export interface ComboRespuesta {
+  idConjuntoRespuesta: number; // Coincide con idConjuntoRespuesta de tu JSON
+  nombre: string;
+  opciones: OpcionRespuestaCombo[]; // <-- ¡Cambiado a 'repuestas' para coincidir con el typo del backend!
 }
 
 // Modelos para el GET

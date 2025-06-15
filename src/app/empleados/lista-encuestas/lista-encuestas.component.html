@@ -1,0 +1,35 @@
+<div class="lista-encuestas-container">
+  <h2>Mis Encuestas Creadas</h2>
+
+  <div *ngIf="loading" class="text-center">Cargando encuestas...</div>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+  <table class="table table-striped" *ngIf="!loading && !error && encuestas.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha de Creación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let encuesta of encuestas">
+        <td>{{ encuesta.idEncuesta }}</td>
+        <td>{{ encuesta.titulo }}</td>
+        <td>{{ encuesta.descripcion }}</td>
+        <td>{{ encuesta.fechaCreacion | date:'shortDate' }}</td> <td>
+          <button mat-raised-button color="primary" (click)="verEncuesta(encuesta.idEncuesta)">Ver/Editar</button>
+          <button mat-raised-button color="warn" (click)="eliminarEncuesta(encuesta.idEncuesta)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !error && encuestas.length === 0" class="alert alert-info">
+    No has creado ninguna encuesta aún.
+  </div>
+
+  <button mat-raised-button color="accent" [routerLink]="['/empleados/crear-encuesta']">Crear Nueva Encuesta</button>
+</div>

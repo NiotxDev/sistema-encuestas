@@ -5,6 +5,7 @@ import { CrearEncuestaComponent } from './crear-encuesta/crear-encuesta.componen
 import { SubirClientesComponent } from './subir-clientes/subir-clientes.component';
 import { SubirCuponComponent } from './subir-cupon/subir-cupon.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ListaEncuestasComponent } from './lista-encuestas/lista-encuestas.component';
 
 const routes: Routes = [
 
@@ -13,6 +14,8 @@ const routes: Routes = [
   { path: 'subir-clientes', component: SubirClientesComponent },
   { path: 'subir-cupon', component: SubirCuponComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'lista-encuestas', component: ListaEncuestasComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

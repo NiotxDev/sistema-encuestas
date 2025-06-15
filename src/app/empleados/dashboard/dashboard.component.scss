@@ -35,7 +35,9 @@ $border-radius: 12px;
   margin-bottom: 30px;
 
   .logo {
-    height: 40px; // Ajusta el tamaño de tu logo
+    height: 60px; // Ajusta el tamaño de tu logo
+    width: auto;
+    object-fit: contain;
     margin-right: 10px;
   }
   span {

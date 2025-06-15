@@ -1,0 +1,88 @@
+.lista-encuestas-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    color: #343a40;
+    margin-bottom: 1.5rem;
+    font-size: 2em;
+    text-align: center;
+  }
+
+  .text-center {
+    text-align: center;
+    color: #6c757d;
+    font-size: 1.1em;
+  }
+
+  .alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+  }
+
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+
+  .alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: 0.75rem;
+      vertical-align: top;
+      border-top: 1px solid #dee2e6;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      background-color: #e9ecef;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    tbody tr:nth-of-type(odd) {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
+  }
+
+  button {
+    margin-right: 0.5rem; // Espacio entre botones
+    // Estilos para los botones de Angular Material
+    &.mat-raised-button {
+      padding: 0 16px;
+      min-width: unset;
+    }
+  }
+
+  button[mat-raised-button][color="accent"] {
+    margin-top: 1.5rem; // Espacio superior para el botón de crear
+    display: block; // Para que ocupe todo el ancho o lo controle mejor
+    width: fit-content; // Ajusta el ancho al contenido
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
