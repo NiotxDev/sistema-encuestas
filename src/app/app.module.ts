@@ -6,19 +6,16 @@ import { provideHttpClient, HTTP_INTERCEPTORS,withFetch,withInterceptorsFromDi }
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule} from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { MatDialogModule} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
-    
   ],
   imports: [
     BrowserModule,
@@ -28,12 +25,13 @@ import { LoginComponent } from './auth/login/login.component';
     AppRoutingModule,
     NgbModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
 
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, // <-- Añade esto
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, // <-- Añade esto
     
     provideHttpClient(
       withFetch(),

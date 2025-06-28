@@ -1,4 +1,7 @@
-/* dashboard.component.scss */
+/* src/app/empleados/dashboard/dashboard.component.scss */
+
+// Módulos Sass para funciones de color (obligatorio con @use)
+@use "sass:color";
 
 // Variables de colores (puedes definirlas globalmente o aquí)
 $sidebar-bg: #1a1a2e; // Azul oscuro casi negro del sidebar
@@ -22,9 +25,12 @@ $border-radius: 12px;
   background-color: $sidebar-bg;
   color: $sidebar-text;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; // Importante para que el flex-grow y margin-top:auto funcionen
   padding: 20px 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  // Añadido para que el sidebar ocupe toda la altura y el logout pueda empujarse al final
+  height: 100%; // Ocupa el 100% de la altura de .dashboard-layout
+  position: relative; // Necesario para posicionar el logout si fuera absoluto, pero lo pondremos flex
 }
 
 .logo-section {
@@ -34,12 +40,12 @@ $border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
 
-  .logo {
-    height: 60px; // Ajusta el tamaño de tu logo
-    width: auto;
-    object-fit: contain;
-    margin-right: 10px;
+  img { // Estilos para la imagen del logo
+    width: 100px; // Ajusta el tamaño de tu logo
+    height: auto;
+    margin-right: 10px; // Espacio entre logo e.g. PeruPregunta texto
   }
+
   span {
     font-size: 1.8em;
     font-weight: bold;
@@ -49,10 +55,16 @@ $border-radius: 12px;
 
 .sidebar-nav {
   flex-grow: 1; // Para que ocupe el espacio disponible
+  display: flex; // Añadido para que el ul pueda ocupar el 100% de la altura
+  flex-direction: column; // Añadido para que el ul pueda ocupar el 100% de la altura
+
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column; // ¡IMPORTANTE! Para que los `li` se apilen y `margin-top: auto` funcione
+    height: 100%; // ¡IMPORTANTE! Para que el `ul` ocupe todo el espacio disponible y el `logout-item-container` se empuje al final
   }
 
   .nav-item {
@@ -63,12 +75,15 @@ $border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 
-    mat-icon {
+    mat-icon, i.fas {
       margin-right: 15px;
       font-size: 22px;
       width: 22px;
       height: 22px;
       color: $sidebar-text;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     a {
@@ -80,9 +95,9 @@ $border-radius: 12px;
     }
 
     &:hover {
-      background-color: lighten($sidebar-bg, 5%);
+      background-color: color.adjust($sidebar-bg, $lightness: 5%);
       color: white;
-      mat-icon {
+      mat-icon, i.fas {
         color: white;
       }
     }
@@ -90,39 +105,49 @@ $border-radius: 12px;
     &.active {
       background-color: $sidebar-active;
       color: white;
-      border-radius: 0 25px 25px 0; // Bordes redondeados como en la imagen
-      margin-right: 15px; // Espacio a la derecha para el borde redondeado
-      mat-icon {
+      border-radius: 0 25px 25px 0;
+      margin-right: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      mat-icon, i.fas {
         color: white;
       }
+    }
+
+    // Estilos para el contenedor del botón de logout dentro de la navegación
+    &.logout-item-container {
+      margin-top: auto; /* ¡Esto empuja este elemento al final de la lista! */
+      padding: 0 25px; /* Ajusta el padding para que el botón no tenga padding de nav-item */
+      margin-bottom: 0; // Quita el margen inferior si es el último
     }
   }
 }
 
-.logout-section {
-  padding: 20px;
-  text-align: center;
+// Ya no necesitas .logout-section como un div aparte, porque ahora es parte del nav-item
+// He movido sus estilos directamente al .logout-btn
+.logout-btn {
+  background-color: $sidebar-active;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  box-shadow: none; // Mat-raised-button tiene sombra por defecto, la quitamos si no la quieres
 
-  .logout-btn {
-    background-color: $sidebar-active;
+  &:hover {
+    background-color: color.adjust($sidebar-active, $lightness: -10%);
+  }
+  mat-icon, i.fas {
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px; // Bordes del botón
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: darken($sidebar-active, 10%);
-    }
-    mat-icon {
-        color: white;
-    }
+    margin-right: 0; /* Ya tienes gap para el espacio, el margin-right en mat-icon puede ser 0 o ajustado */
+    font-size: 22px; // Asegura que el icono del botón logout tenga el tamaño consistente
   }
 }
 
@@ -138,22 +163,24 @@ $border-radius: 12px;
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: $header-bg; // Azul del header
+  background-color: $header-bg;
   color: $header-text;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 80px; // Altura fija del header
+  height: 80px;
+  z-index: 10;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.2); // Fondo de búsqueda semitransparente
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 8px 15px;
 
-  mat-icon {
+  mat-icon, i.fas {
     margin-right: 10px;
     color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
   }
 
   input {
@@ -173,10 +200,13 @@ $border-radius: 12px;
   align-items: center;
   gap: 20px;
 
-  mat-icon {
+  mat-icon, i.fas {
     font-size: 24px;
     cursor: pointer;
     color: $header-text;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   .user-name {
@@ -191,151 +221,179 @@ $border-radius: 12px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid white;
+    cursor: pointer;
   }
 }
 
 .dashboard-content-area {
   flex-grow: 1;
   padding: 2rem;
-  overflow-y: auto; // Permite scroll si el contenido es largo
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; // Espacio entre las secciones principales
+  gap: 1.5rem;
 }
 
 .titulo {
   font-weight: 600;
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #333; // Color oscuro para el título
+  color: #333;
 }
 
-// Estilos para las tarjetas y secciones de contenido
 .kpi-section {
-    // app-tarjetas-resumen ya debería manejar su propio display flex/grid interno para sus tarjetas
-    // Este section solo le dará el padding y shadow del card-bg
-    background-color: $card-bg;
-    border-radius: $border-radius;
-    box-shadow: 0 2px 8px $shadow;
-    padding: 1.5rem;
-    // Asumimos que app-tarjetas-resumen tiene un layout interno para las 3 tarjetas
+  background-color: $card-bg;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px $shadow;
+  padding: 1.5rem;
 }
 
 .main-charts-row {
   display: flex;
   gap: 1.5rem;
-  flex-wrap: wrap; // Para responsive
+  flex-wrap: wrap;
 
   .main-chart-area {
-    flex: 2; // Ocupa más espacio, por ejemplo, 2/3 del ancho
-    min-width: 600px; // Para evitar que se comprima demasiado
+    flex: 2;
+    min-width: 600px;
+    @extend .dashboard-box;
   }
 
   .side-charts-column {
-    flex: 1; // Ocupa 1/3 del ancho
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    min-width: 300px; // Para que no sea demasiado angosto
+    min-width: 300px;
   }
 }
 
 .bottom-row {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 
-    .calendar-area {
-        flex: 1;
-        min-width: 300px; // Tamaño mínimo para el calendario
-    }
+  .calendar-area {
+    flex: 1;
+    min-width: 300px;
+    @extend .dashboard-box;
+  }
 }
 
-
-// Estilos generales para las "cajas" de contenido
 .dashboard-box {
   background-color: $card-bg;
   border-radius: $border-radius;
   box-shadow: 0 2px 8px $shadow;
   padding: 1.5rem;
 
-  h4 { // Títulos para los gráficos y secciones internas
+  h4 {
     font-size: 1.2em;
     margin-bottom: 1rem;
     color: #555;
   }
 }
 
-
-// Estilos de las acciones rápidas (tu sección original)
 .acciones-rapidas {
-    // Ya tiene estilos generales de .dashboard-box
-    h3 {
-      margin-bottom: 1rem;
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: #333;
-    }
+  @extend .dashboard-box;
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #333;
+  }
 
-    .botones-empleado {
+  .botones-empleado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    button {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      border-radius: 8px;
+      min-width: 180px;
+      padding: 10px 15px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      color: #333;
+      transition: background-color 0.3s ease;
 
-      button {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-weight: 500;
-        border-radius: 8px;
-        min-width: 180px;
+      &:hover {
+        background-color: #e0e0e0;
       }
     }
+  }
 }
 
 // Media Queries para Responsividad (ejemplo básico)
 @media (max-width: 1024px) {
   .dashboard-sidebar {
-    width: 80px; // Sidebar más pequeño en pantallas medianas
+    width: 80px;
   }
-  .logo-section span, .sidebar-nav a, .logout-btn span {
+  .logo-section span,
+  .sidebar-nav a { /* Apunta directamente al 'a' para el texto del link */
     display: none; // Oculta texto para dejar solo iconos
   }
   .nav-item {
-      justify-content: center;
-      padding: 15px 0;
+    justify-content: center;
+    padding: 15px 0;
   }
   .logout-btn {
-      padding: 10px;
+    padding: 10px;
+    span { // Si el texto "LOGOUT" es un span dentro del botón mat-raised-button
+        display: none;
+    }
   }
-
   .dashboard-header {
-      padding: 20px;
+    padding: 20px;
   }
-
   .user-info {
-      gap: 10px;
+    gap: 10px;
+  }
+  .user-name {
+    display: none;
   }
 
-  .user-name {
-      display: none;
+  .dashboard-main-content {
+    margin-left: 80px; /* Ajusta el margen si el sidebar se encoge */
+  }
+
+  .main-charts-row, .bottom-row {
+    flex-direction: column;
+    .main-chart-area, .side-charts-column, .calendar-area {
+      min-width: unset;
+      width: 100%;
+      flex: unset;
+    }
   }
 }
 
 @media (max-width: 768px) {
   .dashboard-layout {
-    flex-direction: column; // Sidebar arriba o abajo en móviles
+    flex-direction: column;
   }
   .dashboard-sidebar {
     width: 100%;
     height: auto;
-    flex-direction: row; // Sidebar horizontal en móviles
+    flex-direction: row;
     justify-content: space-around;
     padding: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    // Para que el logout-item-container no interfiera con la fila horizontal
+    .sidebar-nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        height: auto; // Restablece la altura para el modo horizontal
+    }
+    .nav-item {
+        margin-bottom: 0; // Quita el margen inferior si están en fila
+    }
   }
   .logo-section {
-    display: none; // Ocultar logo en móviles
+    display: none;
   }
   .sidebar-nav ul {
     display: flex;
@@ -345,9 +403,13 @@ $border-radius: 12px;
   .nav-item {
     padding: 10px;
   }
-  .logout-section {
-    display: none; // Ocultar logout en sidebar móvil si no hay espacio
+  // En pantallas muy pequeñas, quizás no quieras que el botón de logout aparezca en el sidebar horizontal
+  // O puedes ajustarlo para que sea solo el icono si hay espacio.
+  .logout-item-container {
+    display: none; // Oculta el logout en el sidebar si es horizontal y no hay espacio
   }
+  // Si el logout se oculta en el sidebar, puedes considerar tener un botón de logout en el header para móviles
+  // o en un menú de hamburguesa.
 
   .dashboard-header {
     height: auto;
@@ -359,11 +421,15 @@ $border-radius: 12px;
     width: 100%;
   }
 
-  .main-charts-row, .bottom-row, .fila-dashboard {
-    flex-direction: column; // Apilar elementos en móviles
+  .dashboard-main-content {
+    margin-left: 0; // El contenido ya no tiene margen izquierdo en móvil
   }
-  .main-chart-area, .side-charts-column, .calendar-area, .dashboard-box {
-    min-width: unset; // Resetear min-width
+
+  .main-charts-row, .bottom-row, .acciones-rapidas .botones-empleado {
+    flex-direction: column;
+  }
+  .main-chart-area, .side-charts-column, .calendar-area, .dashboard-box, .acciones-rapidas .botones-empleado button {
+    min-width: unset;
     width: 100%;
     flex: unset;
   }

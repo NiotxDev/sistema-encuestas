@@ -1,0 +1,8 @@
+<div class="auth-page-wrapper">
+  <div class="auth-illustration-side">
+    <img *ngIf="isLoginPage()" src="login.jpg" alt="Login Illustration"> 
+    <img *ngIf="isRegisterPage()" src="register.jpg" alt="Register Illustration"> </div>
+  <div class="auth-form-side">
+    <router-outlet></router-outlet>
+  </div>
+</div>

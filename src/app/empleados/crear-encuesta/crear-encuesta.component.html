@@ -1,48 +1,106 @@
-<div class="crear-encuesta">
-  <h2>Crear Encuesta</h2>
+<div class="crear-encuesta-container">
+  <div class="crear-encuesta-card">
+    <h2>Crear Nueva Encuesta</h2>
 
-  <form [formGroup]="encuestaForm" (ngSubmit)="enviarEncuesta()">
-    <label for="titulo">Título de la Encuesta:</label>
-    <input id="titulo" formControlName="titulo" />
-
-    <div formArrayName="preguntas">
-      <div
-        *ngFor="let pregunta of preguntas.controls; let i = index"
-        [formGroupName]="i"
-        class="pregunta-card"
-      >
-        <h3>Pregunta {{ i + 1 }}</h3>
-        <input placeholder="Escribe la pregunta" formControlName="texto" />
-
-        <select formControlName="tipo">
-          <option *ngFor="let tipo of tiposRespuesta" [value]="tipo">
-            {{ tipo }}
-          </option>
-        </select>
-
-        <div formArrayName="opciones">
-          <div
-            *ngFor="let opcion of getOpciones(i).controls; let j = index"
-            [formGroupName]="j"
-          >
-            <input [formControlName]="j" placeholder="Opción de respuesta" />
-            <button type="button" (click)="eliminarOpcion(i, j)">
-              Eliminar
-            </button>
-          </div>
-
-          <button type="button" (click)="agregarOpcion(i)">
-            Agregar Opción
-          </button>
-        </div>
-
-        <button type="button" (click)="eliminarPregunta(i)">
-          Eliminar Pregunta
-        </button>
-      </div>
+    <!-- Mensaje de error general del formulario -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
     </div>
 
-    <button type="button" (click)="agregarPregunta()">Agregar Pregunta</button>
-    <button type="submit">Guardar Encuesta</button>
-  </form>
+    <!-- Mensaje de éxito (se mostrará brevemente antes de la redirección) -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <form [formGroup]="encuestaForm" (ngSubmit)="enviarEncuesta()">
+      <div class="form-group">
+        <label for="tituloEncuesta">Título de la Encuesta</label>
+        <input type="text" id="tituloEncuesta" formControlName="tituloEncuesta" class="form-control"
+               [ngClass]="{ 'is-invalid': encuestaForm.get('tituloEncuesta')?.invalid && encuestaForm.get('tituloEncuesta')?.touched }"
+               placeholder="Ej: Encuesta de Satisfacción del Cliente">
+        <div *ngIf="encuestaForm.get('tituloEncuesta')?.invalid && encuestaForm.get('tituloEncuesta')?.touched" class="invalid-feedback">
+          <div *ngIf="encuestaForm.get('tituloEncuesta')?.errors?.['required']">El título es obligatorio.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción de la Encuesta</label>
+        <textarea id="descripcion" formControlName="descripcion" class="form-control" rows="3"
+                  [ngClass]="{ 'is-invalid': encuestaForm.get('descripcion')?.invalid && encuestaForm.get('descripcion')?.touched }"
+                  placeholder="Una breve descripción de la encuesta..."></textarea>
+        <div *ngIf="encuestaForm.get('descripcion')?.invalid && encuestaForm.get('descripcion')?.touched" class="invalid-feedback">
+          <div *ngIf="encuestaForm.get('descripcion')?.errors?.['required']">La descripción es obligatoria.</div>
+        </div>
+      </div>
+
+      <!-- Si quieres añadir campos para el cupón en el formulario, aquí irían:
+      <div formGroupName="cupon">
+        <h4>Información del Cupón (Opcional)</h4>
+        <div class="form-group">
+          <label for="codigoCupon">Código del Cupón</label>
+          <input type="text" id="codigoCupon" formControlName="codigoCupon" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="cuponDescripcion">Descripción del Cupón</label>
+          <input type="text" id="cuponDescripcion" formControlName="descripcion" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="fechaExpiracion">Fecha de Expiración</label>
+          <input type="date" id="fechaExpiracion" formControlName="fechaExpiracion" class="form-control">
+        </div>
+      </div>
+      -->
+
+      <h3>Preguntas</h3>
+      <div formArrayName="preguntas">
+        <div *ngFor="let preguntaGroup of preguntas.controls; let i = index" [formGroupName]="i" class="pregunta-group">
+          <div class="form-group">
+            <label for="textoPregunta-{{i}}">Pregunta {{ i + 1 }}</label>
+            <input type="text" id="textoPregunta-{{i}}" formControlName="textoPregunta" class="form-control"
+                   [ngClass]="{ 'is-invalid': preguntaGroup.get('textoPregunta')?.invalid && preguntaGroup.get('textoPregunta')?.touched }"
+                   placeholder="Ej: ¿Qué tan satisfecho está con nuestro servicio?">
+            <div *ngIf="preguntaGroup.get('textoPregunta')?.invalid && preguntaGroup.get('textoPregunta')?.touched" class="invalid-feedback">
+              <div *ngIf="preguntaGroup.get('textoPregunta')?.errors?.['required']">El texto de la pregunta es obligatorio.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tipoPreguntaNombre-{{i}}">Tipo de Respuesta</label>
+            <select id="tipoPreguntaNombre-{{i}}" formControlName="tipoPreguntaNombre" class="form-control"
+                    [ngClass]="{ 'is-invalid': preguntaGroup.get('tipoPreguntaNombre')?.invalid && preguntaGroup.get('tipoPreguntaNombre')?.touched }">
+              <option value="" disabled selected>Selecciona un tipo de respuesta</option>
+              <!-- Itera sobre los comboRespuestas cargados del backend -->
+              <option *ngFor="let combo of comboRespuestas" [value]="combo.nombre">{{ combo.nombre }}</option>
+            </select>
+            <div *ngIf="preguntaGroup.get('tipoPreguntaNombre')?.invalid && preguntaGroup.get('tipoPreguntaNombre')?.touched" class="invalid-feedback">
+              <div *ngIf="preguntaGroup.get('tipoPreguntaNombre')?.errors?.['required']">El tipo de pregunta es obligatorio.</div>
+            </div>
+          </div>
+
+          <!-- OPCIONAL: Mostrar las opciones predefinidas para el tipo de pregunta seleccionado -->
+          <ng-container *ngIf="preguntaGroup.get('tipoPreguntaNombre')?.value">
+            <ng-container *ngIf="getComboRespuesta(preguntaGroup.get('tipoPreguntaNombre')?.value) as selectedCombo">
+              <div *ngIf="selectedCombo.respuestas && selectedCombo.respuestas.length > 0" class="predefined-options-display">
+                <label>Opciones predefinidas para "{{ selectedCombo.nombre }}":</label>
+                <ul>
+                  <li *ngFor="let opcion of selectedCombo.respuestas">{{ opcion.texto }}</li>
+                </ul>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <button type="button" class="btn btn-danger btn-sm mt-3" (click)="eliminarPregunta(i)">Eliminar Pregunta</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-info mt-3" (click)="agregarPregunta()">Agregar Pregunta</button>
+
+      <div class="form-actions mt-4">
+        <button type="submit" class="btn btn-primary" [disabled]="encuestaForm.invalid || isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+          Crear Encuesta
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

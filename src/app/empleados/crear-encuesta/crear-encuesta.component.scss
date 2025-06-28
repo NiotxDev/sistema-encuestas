@@ -1,24 +1,258 @@
-.crear-encuesta {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem;
+// Definición de variables de colores
+$primary-blue: #007bff;     // Azul vibrante
+$secondary-green: #28a745;  // Verde éxito
+$accent-orange: #fd7e14;    // Naranja acento
+$danger-red: #dc3545;       // Rojo peligro
+$info-cyan: #17a2b8;        // Cian info
+$light-gray: #f8f9fa;       // Fondo muy claro
+$medium-gray: #e9ecef;      // Borde suave
+$dark-text: #343a40;        // Texto oscuro
+$light-text: #ffffff;       // Texto claro para fondos oscuros
+$card-background: #ffffff;
 
-  input, select {
+.crear-encuesta-container {
+  padding: 40px 20px;
+  background: linear-gradient(to bottom right, $light-gray, darken($light-gray, 5%)); // Degradado sutil
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; // Alinea al inicio para que el formulario no se centre verticalmente en pantallas grandes
+  font-family: 'Inter', sans-serif; // Usando Inter como fuente predeterminada
+  color: $dark-text;
+}
+
+.crear-encuesta-card {
+  background-color: $card-background;
+  border-radius: 15px; // Más redondeado
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); // Sombra más profunda
+  padding: 40px;
+  width: 100%;
+  max-width: 750px; // Ancho máximo para el formulario
+  margin-top: 50px; // Margen superior para separarlo del borde superior
+  margin-bottom: 50px;
+  border: 1px solid $medium-gray; // Borde sutil
+}
+
+h2 {
+  color: $primary-blue;
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 2.8em;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  letter-spacing: 1px;
+}
+
+h3 {
+  color: $secondary-green;
+  margin-top: 40px;
+  margin-bottom: 25px;
+  border-bottom: 3px solid lighten($secondary-green, 30%); // Línea decorativa
+  padding-bottom: 10px;
+  font-size: 1.8em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.alert {
+  padding: 18px;
+  margin-bottom: 25px;
+  border: 1px solid transparent;
+  border-radius: 10px; // Más redondeado
+  font-size: 1.05em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.alert-danger {
+  background-color: lighten($danger-red, 35%);
+  color: darken($danger-red, 20%);
+  border-color: darken($danger-red, 10%);
+}
+
+.alert-success {
+  background-color: lighten($secondary-green, 35%);
+  color: darken($secondary-green, 20%);
+  border-color: darken($secondary-green, 10%);
+}
+
+.form-group {
+  margin-bottom: 25px;
+
+  label {
     display: block;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: $dark-text;
+    font-size: 1.05em;
+  }
+
+  .form-control {
     width: 100%;
+    padding: 14px 18px;
+    border: 1px solid $medium-gray;
+    border-radius: 10px; // Más redondeado
+    font-size: 1em;
+    color: $dark-text;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+      border-color: $primary-blue;
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba($primary-blue, 0.25);
+      background-color: $light-text;
+    }
+
+    &.is-invalid {
+      border-color: $danger-red;
+      padding-right: calc(1.5em + 0.75rem);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right calc(0.375em + 0.1875rem) center;
+      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
   }
 
-  .pregunta-card {
-    background: #f3f3f3;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-  }
-
-  button {
+  .invalid-feedback {
+    display: none; /* Controlado por d-block en el HTML */
+    width: 100%;
     margin-top: 0.5rem;
-    margin-right: 0.5rem;
+    font-size: 0.9em;
+    color: $danger-red;
+    font-weight: 500;
+  }
+}
+
+.pregunta-group {
+  border: 1px solid $medium-gray;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  background-color: #fefefe;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); // Sombra para cada grupo de pregunta
+}
+
+.predefined-options-display {
+  background-color: lighten($info-cyan, 45%); // Un cian claro para mostrar opciones
+  border-left: 5px solid $info-cyan; // Barra lateral de color
+  padding: 18px;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05);
+
+  label {
+    font-weight: 600;
+    color: darken($info-cyan, 15%);
+    margin-bottom: 12px;
+    display: block;
+    font-size: 1.1em;
+  }
+
+  ul {
+    list-style: disc inside;
+    padding-left: 0;
+    margin-top: 8px;
+    li {
+      color: $dark-text;
+      margin-bottom: 5px;
+      font-size: 0.95em;
+    }
+  }
+}
+
+.form-actions {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.btn {
+  padding: 14px 30px;
+  border: none;
+  border-radius: 25px; // Botones más redondeados
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; // Espacio entre texto e icono
+  margin: 0 10px; // Espacio entre botones si hay varios
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.btn-primary {
+  background-color: $primary-blue;
+  color: $light-text;
+  box-shadow: 0 4px 10px rgba($primary-blue, 0.3);
+  &:hover { background-color: darken($primary-blue, 8%); }
+}
+
+.btn-info {
+  background-color: $info-cyan;
+  color: $light-text;
+  box-shadow: 0 4px 10px rgba($info-cyan, 0.3);
+  &:hover { background-color: darken($info-cyan, 8%); }
+}
+
+.btn-danger {
+  background-color: $danger-red;
+  color: $light-text;
+  box-shadow: 0 4px 10px rgba($danger-red, 0.3);
+  &:hover { background-color: darken($danger-red, 8%); }
+}
+
+.spinner-border {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.18em;
+  margin-right: 0.6rem;
+}
+
+@media (max-width: 768px) {
+  .crear-encuesta-card {
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 25px;
+  }
+
+  h3 {
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .form-actions {
+    text-align: center;
+    .btn {
+      margin: 15px 0 0 0; /* Ajuste el margen superior para el botón de envío */
+    }
   }
 }

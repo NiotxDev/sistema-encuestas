@@ -9,6 +9,7 @@ import { ResponderEncuestaComponent } from './responder-encuesta/responder-encue
 @NgModule({
   declarations: [
     ResponderEncuestaComponent
+    
   ],
   imports: [
     CommonModule,

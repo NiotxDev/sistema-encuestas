@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service'; // Ajusta la ruta si es necesario
+import { Router } from '@angular/router';
+import { AuthService, LoginCredentials } from '../../core/services/auth.service'; // Ajusta la ruta si es necesario
 
 @Component({
   selector: 'app-login',
@@ -10,64 +10,75 @@ import { AuthService } from '../../core/services/auth.service'; // Ajusta la rut
   styleUrl: './login.component.scss'
 })
 
-export class LoginComponent  implements OnInit {
-
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
   error = '';
-  returnUrl: string | null = null; // Para redirigir al usuario a la URL que intentaba acceder
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
     private authService: AuthService
-  ) {
+  ) { }
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      // Los nombres de los controles del formulario coinciden con tu interfaz LoginCredentials
+      correo: ['', [Validators.required, Validators.email]],
+      contrasena: ['', Validators.required]
+    });
+
     // Redirigir a la página principal/dashboard si ya está logueado
-    if (this.authService.currentUserValue && this.authService.currentUserValue.token) {
-      this.router.navigate(['/dashboard']); // Redirige a tu dashboard principal
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/empleados/dashboard']); // Redirige a tu dashboard principal
     }
   }
 
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-
-    // Obtener la URL de retorno de los query params si existe
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard'; // Por defecto al dashboard
-  }
   // Conveniencia para un fácil acceso a los campos del formulario
   get f() { return this.loginForm.controls; }
-
-    onSubmit() {
+  
+  // Método llamado al enviar el formulario
+  onSubmit() {
     this.submitted = true;
+    this.error = ''; // Limpiar cualquier mensaje de error previo
 
     // Detener aquí si el formulario es inválido
     if (this.loginForm.invalid) {
       return;
     }
 
-    this.loading = true;
-    this.authService.login(this.loginForm.value)
-      .subscribe({
-        next: () => {
-          this.router.navigate([this.returnUrl]); // Redirigir a la URL original o al dashboard
-        },
-        error: error => {
-          console.error('Error de login:', error);
-          this.error = 'Credenciales inválidas. Por favor, intenta de nuevo.';
-          // Puedes refinar el mensaje de error según el error.status (ej. 401 para credenciales inválidas)
-          if (error.status === 401) {
-            this.error = 'Email o contraseña incorrectos.';
-          } else {
-            this.error = 'Hubo un error al iniciar sesión. Intenta de nuevo más tarde.';
-          }
-          this.loading = false;
+    this.loading = true;  // Indicar que la operación está en curso
+    // Aquí, `credentials` ya tiene 'correo' y 'contrasena'
+    // El AuthService se encarga de mapearlos a 'email' y 'password' para el backend
+    const credentials: LoginCredentials = {
+      correo: this.f['correo'].value,
+      contrasena: this.f['contrasena'].value
+    };
+
+    this.authService.login(credentials).subscribe({
+      next: (user) => {
+        // Login exitoso, redirigir al dashboard
+        console.log('Login exitoso:', user);
+        this.authService.saveUser(user); // Guarda los datos del usuario en localStorage
+        this.router.navigate(['/empleados/dashboard']); // Asegúrate de que esta sea la ruta correcta
+      },
+      error: (err) => {
+        console.error('Error durante el login:', err);
+        // Puedes agregar lógica para mensajes de error más específicos
+        if (err.status === 401) { // 401 Unauthorized
+          this.error = 'Credenciales inválidas. Por favor, verifica tu correo y contraseña.';
+        } else {
+          this.error = 'Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde.';
         }
-      });
+        this.loading = false;
+      }
+    });
+  }
+
+  // Método para navegar al componente de registro
+  goToRegister(): void {
+    this.router.navigate(['/register']); // Ruta a tu componente de registro
   }
 
 }

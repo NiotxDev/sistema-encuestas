@@ -1,35 +1,43 @@
-<div class="lista-encuestas-container">
-  <h2>Mis Encuestas Creadas</h2>
+<div class="encuestas-list-container">
+  <h2>Mis Encuestas</h2>
 
-  <div *ngIf="loading" class="text-center">Cargando encuestas...</div>
-  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <!-- Botón para crear una nueva encuesta - Ubicado en la parte superior izquierda -->
+  <button class="btn btn-primary create-encuesta-btn" routerLink="/empleados/crear-encuesta">
+    <i class="fas fa-plus-circle"></i> Crear Nueva Encuesta
+  </button>
 
-  <table class="table table-striped" *ngIf="!loading && !error && encuestas.length > 0">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Título</th>
-        <th>Descripción</th>
-        <th>Fecha de Creación</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let encuesta of encuestas">
-        <td>{{ encuesta.idEncuesta }}</td>
-        <td>{{ encuesta.titulo }}</td>
-        <td>{{ encuesta.descripcion }}</td>
-        <td>{{ encuesta.fechaCreacion | date:'shortDate' }}</td> <td>
-          <button mat-raised-button color="primary" (click)="verEncuesta(encuesta.idEncuesta)">Ver/Editar</button>
-          <button mat-raised-button color="warn" (click)="eliminarEncuesta(encuesta.idEncuesta)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="!loading && !error && encuestas.length === 0" class="alert alert-info">
-    No has creado ninguna encuesta aún.
+  <!-- Sección de carga: Visible cuando 'loading' es true -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div> <p>Cargando encuestas...</p>
   </div>
 
-  <button mat-raised-button color="accent" [routerLink]="['/empleados/crear-encuesta']">Crear Nueva Encuesta</button>
+  <!-- Sección de error: Visible cuando 'errorMessage' tiene un valor -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Sección de "No hay encuestas": Visible cuando no está cargando, no hay error y la lista está vacía -->
+  <div *ngIf="!loading && !errorMessage && encuestas.length === 0" class="no-encuestas-message">
+    <p>No tienes encuestas creadas aún. ¡Anímate a crear una!</p>
+  </div>
+
+  <!-- Sección de la lista de encuestas: Visible cuando no está cargando, no hay error y hay encuestas -->
+  <div *ngIf="!loading && !errorMessage && encuestas.length > 0" class="encuestas-grid">
+    <!-- Itera sobre el array de encuestas para mostrar cada tarjeta -->
+    <div *ngFor="let encuesta of encuestas" class="encuesta-card">
+      <h3>{{ encuesta.titulo }}</h3>
+      <p>{{ encuesta.descripcion }}</p>
+      <div class="cupon-info">
+        <h4>Cupón Asociado:</h4>
+        <p><strong>Código:</strong> {{ encuesta.cuponInfo?.codigoCupon }}</p> <!-- Usa el operador '?' por si cuponInfo es null -->
+        <p><strong>Descripción:</strong> {{ encuesta.cuponInfo?.descripcion }}</p>
+        <p><strong>Expira:</strong> {{ encuesta.cuponInfo?.fechaExpiracion | date:'dd/MM/yyyy' }}</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-info" (click)="editarEncuesta(encuesta.idEncuesta)">Editar</button>
+        <button class="btn btn-danger" (click)="eliminarEncuesta(encuesta.idEncuesta)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
 </div>

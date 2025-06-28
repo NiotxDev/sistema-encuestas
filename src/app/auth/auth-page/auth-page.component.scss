@@ -1,0 +1,61 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  width: 100%;
+}
+
+.auth-page-wrapper {
+  display: flex; /* Esto es clave para que los lados se coloquen uno al lado del otro */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+  min-height: 500px;
+}
+
+.auth-illustration-side { /* CAMBIADO de auth-illustration-container a auth-illustration-side */
+  flex: 1; /* Ocupa espacio disponible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #e6f7ff;
+  // Añadir estilos para el img dentro si es necesario, ej. max-width: 100%; height: auto;
+  img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+  }
+}
+
+.auth-form-side { /* CAMBIADO de auth-form-container a auth-form-side */
+  flex: 1; /* Ocupa espacio disponible */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Media queries para responsividad (ajusta según tus necesidades) */
+@media (max-width: 768px) {
+  .auth-page-wrapper {
+    flex-direction: column; /* Apila la ilustración y el formulario en pantallas pequeñas */
+    max-width: 450px;
+    min-height: auto;
+  }
+
+  .auth-illustration-side {
+    padding: 15px;
+    min-height: 200px;
+  }
+
+  .auth-form-side {
+    padding: 25px;
+  }
+}

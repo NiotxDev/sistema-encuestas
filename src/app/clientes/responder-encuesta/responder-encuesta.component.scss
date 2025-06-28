@@ -1,208 +1,314 @@
-/* src/app/clientes/responder-encuesta/responder-encuesta.component.scss */
-.encuesta-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-  color: #333;
+@use "sass:color"; // ¡IMPORTANTE! Añadir esta línea para usar el módulo de color
+
+// Definición de variables de colores
+$primary-blue: #007bff;     // Azul vibrante
+$secondary-green: #28a745;  // Verde éxito
+$accent-orange: #fd7e14;    // Naranja acento
+$danger-red: #dc3545;       // Rojo peligro
+$info-cyan: #17a2b8;        // Cian info
+$light-gray: #f8f9fa;       // Fondo muy claro
+$medium-gray: #e9ecef;      // Borde suave
+$dark-text: #343a40;        // Texto oscuro
+$light-text: #ffffff;       // Texto claro para fondos oscuros
+$card-background: #ffffff;
+
+.responder-encuesta-container {
+  padding: 40px 20px;
+  background: linear-gradient(to bottom right, $light-gray, color.adjust($light-gray, $lightness: -5%));
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Inter', sans-serif;
+  color: $dark-text;
+}
+
+.encuesta-card {
+  background-color: $card-background;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 750px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border: 1px solid $medium-gray;
 }
 
 .encuesta-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
+
+  h2 {
+    color: $primary-blue;
+    margin-bottom: 15px;
+    font-size: 2.8em;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    letter-spacing: 1px;
+  }
+
+  p {
+    color: $dark-text;
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
 }
 
-.empresa-logo {
-  max-width: 150px;
-  margin-bottom: 20px;
-}
-
-h1 {
-  font-size: 2.2em;
-  color: #0056b3;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1.1em;
-  line-height: 1.6;
-}
-
-.pregunta-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 25px;
-}
-
-.pregunta-card h3 {
-  font-size: 1.4em;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.respuestas-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.respuesta-item {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.respuesta-item input[type="radio"] {
-  margin-right: 10px;
-  transform: scale(1.2);
-  cursor: pointer;
-}
-
-.respuesta-item label {
-  font-size: 1.1em;
-  cursor: pointer;
-}
-
-button[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: 15px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.2em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 30px;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-button[type="submit"]:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.encuesta-footer {
+.loading-spinner,
+.alert.alert-danger {
   text-align: center;
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  font-size: 1.15em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.cupon-details {
-  background-color: #e6f7ff;
-  border: 1px dashed #99ccff;
-  padding: 15px;
-  border-radius: 5px;
-  margin-top: 20px;
-  display: inline-block; /* Para centrarlo si es necesario */
+.loading-spinner {
+  background-color: color.adjust($info-cyan, $lightness: 40%);
+  color: color.adjust($info-cyan, $lightness: -20%);
+  border: 1px solid color.adjust($info-cyan, $lightness: 20%);
+
+  .spinner-border {
+    width: 50px;
+    height: 50px;
+    border-width: 5px;
+    margin: 0 auto 15px auto;
+    color: $info-cyan;
+  }
+  p { margin-top: 10px; }
 }
 
-.cupon-details p {
-  margin: 5px 0;
-  font-size: 1.1em;
+.alert.alert-danger {
+  background-color: color.adjust($danger-red, $lightness: 35%);
+  color: color.adjust($danger-red, $lightness: -20%);
+  border-color: color.adjust($danger-red, $lightness: -10%);
 }
 
-.cupon-details strong {
-  color: #0056b3;
+.form-group {
+  margin-bottom: 25px;
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: $dark-text;
+    font-size: 1.05em;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid $medium-gray;
+    border-radius: 10px;
+    font-size: 1em;
+    color: $dark-text;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+      border-color: $primary-blue;
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba($primary-blue, 0.25);
+      background-color: $light-text;
+    }
+
+    &.is-invalid {
+      border-color: $danger-red;
+      padding-right: calc(1.5em + 0.75rem);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right calc(0.375em + 0.1875rem) center;
+      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+  }
+
+  .invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+    color: $danger-red;
+    font-weight: 500;
+  }
 }
 
-.error-message {
-  color: red;
-  font-size: 0.9em;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  padding-left: 5px;
-}
-/* ********************** INICIO: Estilos para el Pop-up ********************** */
+.form-check-group {
+  margin-top: 15px;
+  .form-check {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    .form-check-input {
+      margin-right: 10px;
+      width: 1.2em;
+      height: 1.2em;
+      cursor: pointer;
+    }
+
+    .form-check-label {
+      margin-bottom: 0;
+      font-weight: normal;
+      color: $dark-text;
+      cursor: pointer;
+    }
+  }
+}
+
+.rating-group {
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  max-width: 500px;
-  width: 90%;
-  position: relative; /* Para posicionar el botón de cierre si se quisiera */
-}
-
-.modal-content h2 {
-  color: #0056b3;
-  font-size: 2em;
-  margin-bottom: 15px;
-}
-
-.modal-content p {
-  font-size: 1.1em;
-  margin-bottom: 20px;
-}
-
-.cupon-details-popup {
-  background-color: #e6f7ff;
-  border: 1px dashed #99ccff;
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.cupon-details-popup h3 {
-  color: #007bff;
-  font-size: 1.3em;
-  margin-bottom: 10px;
-}
-
-.cupon-details-popup p {
-  font-size: 1.1em;
-  margin: 8px 0;
-}
-
-.cupon-details-popup strong {
-  color: #0056b3;
-}
-
-.no-cupon-message {
-  color: #888;
-  font-style: italic;
+  gap: 15px;
   margin-top: 15px;
+
+  .rating-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: $dark-text;
+    font-weight: 500;
+
+    input[type="radio"] {
+      margin-bottom: 5px;
+      width: 1.5em;
+      height: 1.5em;
+      cursor: pointer;
+      accent-color: $accent-orange; // Color del radio button
+    }
+  }
 }
 
-.close-modal-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+.form-actions {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.btn {
+  padding: 14px 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 1.1em;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 10px;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
 }
 
-.close-modal-btn:hover {
-  background-color: #0056b3;
+.btn-primary {
+  background-color: $primary-blue;
+  color: $light-text;
+  box-shadow: 0 4px 10px rgba($primary-blue, 0.3);
+  &:hover { background-color: color.adjust($primary-blue, $lightness: -8%); }
 }
 
-/* ********************** FIN: Estilos para el Pop-up ********************** */
+.btn-secondary {
+  background-color: #6c757d;
+  color: $light-text;
+  &:hover { background-color: color.adjust(#6c757d, $lightness: -8%); }
+}
+
+.cupon-success-section {
+  text-align: center;
+  padding: 40px;
+  background-color: color.adjust($secondary-green, $lightness: 45%);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid color.adjust($secondary-green, $lightness: 10%);
+  color: color.adjust($secondary-green, $lightness: -20%);
+  
+  .cupon-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 25px;
+  }
+
+  h3 {
+    color: $secondary-green;
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .cupon-details {
+    background-color: $light-text;
+    border: 1px dashed $secondary-green;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    p {
+      margin: 8px 0;
+      font-size: 1.05em;
+      color: $dark-text;
+
+      strong {
+        color: $primary-blue;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .encuesta-card {
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .encuesta-header h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .form-actions {
+    text-align: center;
+    .btn {
+      margin: 15px 0 0 0;
+    }
+  }
+
+  .cupon-success-section {
+    padding: 25px;
+    h3 { font-size: 1.8em; }
+    .cupon-icon { width: 100px; height: 100px; }
+  }
+}

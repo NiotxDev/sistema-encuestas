@@ -1,7 +1,8 @@
 <div class="dashboard-layout">
   <div class="dashboard-sidebar">
     <div class="logo-section">
-      <img src="assets/logo.png" alt="logo" class="logo">
+      <img src="logo_llam1.png" alt="PeruPregunta Logo" class="navbar-logo">
+      <span>Peru Pregunta</span>
     </div>
     <nav class="sidebar-nav">
       <ul>
@@ -41,14 +42,14 @@
           <mat-icon>settings</mat-icon>
           <a [routerLink]="['/settings']">Ajustes</a>
         </li>
+        <li>
+          <button mat-raised-button class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          LOGOUT
+          </button>
+        </li>
       </ul>
     </nav>
-    <div class="logout-section">
-      <button mat-raised-button class="logout-btn" (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        LOGOUT
-      </button>
-    </div>
   </div>
 
   <div class="dashboard-main-content">
@@ -62,7 +63,7 @@
         <mat-icon>home</mat-icon>
         <span class="user-name">{{ userName || 'JOSE CARLOS' }}</span>
         <img
-          [src]="userAvatarUrl || 'assets/profile.png'"
+          [src]="userAvatarUrl || 'profile.png'"
           alt="Avatar del Usuario"
           class="user-avatar"
         />

@@ -1,0 +1,93 @@
+<div class="register-page-container">
+  <div class="register-card">
+
+    <div class="register-header">
+      <h2>Registro de Empleado</h2>
+      <p>Crea tu cuenta en PeruPregunta</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="nombreCompleto">Nombre Completo</label>
+        <input type="text" id="nombreCompleto" formControlName="nombreCompleto" class="form-control"
+               [ngClass]="{ 'is-invalid': f['nombreCompleto'].invalid && f['nombreCompleto'].touched }"
+               placeholder="Tu nombre completo" />
+        <div *ngIf="f['nombreCompleto'].invalid && f['nombreCompleto'].touched" class="invalid-feedback">
+          <div *ngIf="f['nombreCompleto'].errors?.['required']">El nombre es requerido.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" formControlName="correo" class="form-control"
+               [ngClass]="{ 'is-invalid': f['correo'].invalid && f['correo'].touched }"
+               placeholder="ejemplo@empresa.com" />
+        <div *ngIf="f['correo'].invalid && f['correo'].touched" class="invalid-feedback">
+          <div *ngIf="f['correo'].errors?.['required']">El correo es requerido.</div>
+          <div *ngIf="f['correo'].errors?.['email']">Por favor, introduce un correo válido.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" formControlName="contrasena" class="form-control"
+               [ngClass]="{ 'is-invalid': f['contrasena'].invalid && f['contrasena'].touched }"
+               placeholder="••••••••" />
+        <div *ngIf="f['contrasena'].invalid && f['contrasena'].touched" class="invalid-feedback">
+          <div *ngIf="f['contrasena'].errors?.['required']">La contraseña es requerida.</div>
+          <div *ngIf="f['contrasena'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmarContrasena">Confirmar Contraseña</label>
+        <input type="password" id="confirmarContrasena" formControlName="confirmarContrasena" class="form-control"
+               [ngClass]="{ 'is-invalid': (f['confirmarContrasena'].invalid && f['confirmarContrasena'].touched) || (registerForm.errors?.['passwordsMismatch'] && f['confirmarContrasena'].touched) }"
+               placeholder="Repite tu contraseña" />
+        <div *ngIf="f['confirmarContrasena'].invalid && f['confirmarContrasena'].touched" class="invalid-feedback">
+          <div *ngIf="f['confirmarContrasena'].errors?.['required']">La confirmación de contraseña es requerida.</div>
+        </div>
+        <div *ngIf="registerForm.errors?.['passwordsMismatch'] && f['confirmarContrasena'].touched" class="invalid-feedback">
+          Las contraseñas no coinciden.
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label for="nombreEmpresa">Nombre de la Empresa</label>
+          <input type="text" id="nombreEmpresa" formControlName="nombreEmpresa" class="form-control"
+                 [ngClass]="{ 'is-invalid': f['nombreEmpresa'].invalid && f['nombreEmpresa'].touched }"
+                 placeholder="Ingresa el nombre de tu empresa" />
+          <div *ngIf="f['nombreEmpresa'].invalid && f['nombreEmpresa'].touched" class="invalid-feedback">
+              <div *ngIf="f['nombreEmpresa'].errors?.['required']">El nombre de la empresa es obligatorio.</div>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="logoUrl">URL del Logo de la Empresa</label>
+          <input type="url" id="logoUrl" formControlName="logoUrl" class="form-control"
+                 [ngClass]="{ 'is-invalid': f['logoUrl'].invalid && f['logoUrl'].touched }"
+                 placeholder="Ej: https://www.ejemplo.com/logo.png" />
+          <div *ngIf="f['logoUrl'].invalid && f['logoUrl'].touched" class="invalid-feedback">
+              <div *ngIf="f['logoUrl'].errors?.['required']">La URL del logo es obligatoria.</div>
+              <div *ngIf="f['logoUrl'].errors?.['pattern']">Por favor, introduce una URL de imagen válida (ej. .png, .jpg, .gif).</div>
+          </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="registerForm.invalid || loading" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Registrarse
+        </button>
+      </div>
+    </form>
+
+    <div class="register-footer">
+      <p>¿Ya tienes una cuenta? <a (click)="goToLogin()">Inicia sesión aquí</a></p>
+    </div>
+
+    </div>
+</div>

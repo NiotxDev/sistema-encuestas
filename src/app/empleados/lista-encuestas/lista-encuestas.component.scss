@@ -1,88 +1,237 @@
-.lista-encuestas-container {
-  padding: 2rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+// Definición de variables de colores
+$primary-blue: #007bff;     // Azul vibrante
+$secondary-green: #28a745;  // Verde éxito
+$accent-orange: #fd7e14;    // Naranja acento
+$danger-red: #dc3545;       // Rojo peligro
+$info-cyan: #17a2b8;        // Cian info
+$light-gray: #f8f9fa;       // Fondo muy claro
+$medium-gray: #e9ecef;      // Borde suave
+$dark-text: #343a40;        // Texto oscuro
+$light-text: #ffffff;       // Texto claro para fondos oscuros
 
-  h2 {
-    color: #343a40;
-    margin-bottom: 1.5rem;
-    font-size: 2em;
+.encuestas-list-container {
+  padding: 40px 20px;
+  background: linear-gradient(to bottom right, $light-gray, darken($light-gray, 5%)); // Degradado sutil
+  min-height: calc(100vh - 60px); // Ajusta la altura para llenar la pantalla
+  font-family: 'Inter', sans-serif; // Usando Inter como fuente predeterminada
+  color: $dark-text;
+  border-radius: 12px; // Bordes redondeados para el contenedor principal
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05); // Sombra suave
+}
+
+h2 {
+  color: $primary-blue;
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.8em;
+  font-weight: 700; // Más negrita
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.15); // Sombra de texto más pronunciada
+  letter-spacing: 1px; // Espaciado entre letras
+}
+
+.create-encuesta-btn {
+  position: absolute;
+  top: 40px; // Ajusta la distancia desde la parte superior
+  left: 30px; // Ajusta la distancia desde la izquierda
+  padding: 12px 28px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 25px; // Botón más redondeado
+  background-color: $secondary-green;
+  color: $light-text;
+  box-shadow: 0 4px 10px rgba($secondary-green, 0.3); // Sombra de color
+  transition: all 0.3s ease;
+  z-index: 10;
+
+  &:hover {
+    background-color: darken($secondary-green, 8%);
+    transform: translateY(-3px) scale(1.02); // Efecto de elevación y ligero crecimiento
+    box-shadow: 0 6px 15px rgba($secondary-green, 0.4);
+  }
+
+  i {
+    margin-right: 10px;
+    font-size: 1.2em;
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    width: calc(100% - 60px); // Ajusta al ancho del contenedor
+    margin: 20px auto; // Centra y da margen
+    display: block;
     text-align: center;
+    left: auto;
+    top: auto;
+  }
+}
+
+.loading-spinner,
+.no-encuestas-message,
+.alert.alert-danger {
+  text-align: center;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 10px; // Más redondeado
+  font-size: 1.15em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.loading-spinner {
+  background-color: lighten($info-cyan, 40%);
+  color: darken($info-cyan, 20%);
+  border: 1px solid lighten($info-cyan, 20%);
+
+  .spinner {
+    border: 5px solid $medium-gray;
+    border-top: 5px solid $info-cyan; // Color del spinner
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px auto;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.alert.alert-danger {
+  background-color: lighten($danger-red, 35%);
+  color: darken($danger-red, 20%);
+  border: 1px solid darken($danger-red, 10%);
+}
+
+.no-encuestas-message {
+  background-color: lighten($accent-orange, 40%);
+  color: darken($accent-orange, 20%);
+  border: 1px solid lighten($accent-orange, 20%);
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.encuestas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); // Columnas responsivas, un poco más anchas
+  gap: 30px; // Más espacio entre tarjetas
+  padding: 15px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.encuesta-card {
+  background-color: $light-text;
+  border-radius: 15px; // Más redondeado
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); // Sombra más profunda
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid $medium-gray; // Borde sutil
+
+  &:hover {
+    transform: translateY(-8px) scale(1.01); // Efecto de elevación más pronunciado
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   }
 
-  .text-center {
-    text-align: center;
-    color: #6c757d;
-    font-size: 1.1em;
+  h3 {
+    color: $primary-blue;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    font-weight: 700;
+    border-bottom: 3px solid lighten($primary-blue, 30%); // Línea decorativa más gruesa
+    padding-bottom: 8px;
+    letter-spacing: 0.5px;
   }
 
-  .alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
+  p {
+    color: $dark-text;
+    line-height: 1.7;
+    margin-bottom: 18px;
   }
 
-  .alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-  }
+  .cupon-info {
+    background-color: lighten($accent-orange, 45%); // Fondo suave para el cupón
+    border-left: 6px solid $accent-orange; // Barra lateral de color más destacada
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.05); // Sombra interna
 
-  .alert-info {
-    color: #0c5460;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-  }
-
-  .table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-
-    th,
-    td {
-      padding: 0.75rem;
-      vertical-align: top;
-      border-top: 1px solid #dee2e6;
-      text-align: left;
-    }
-
-    th {
+    h4 {
+      color: darken($accent-orange, 15%);
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.3em;
       font-weight: 600;
-      background-color: #e9ecef;
-      color: #495057;
-      border-bottom: 2px solid #dee2e6;
     }
 
-    tbody tr:nth-of-type(odd) {
-      background-color: rgba(0, 0, 0, 0.03);
-    }
+    p {
+      margin: 6px 0;
+      font-size: 1em;
+      color: $dark-text;
 
-    tbody tr:hover {
-      background-color: rgba(0, 0, 0, 0.075);
-    }
-  }
-
-  button {
-    margin-right: 0.5rem; // Espacio entre botones
-    // Estilos para los botones de Angular Material
-    &.mat-raised-button {
-      padding: 0 16px;
-      min-width: unset;
+      strong {
+        color: darken($primary-blue, 10%); // Resaltar el código del cupón
+        font-weight: 700;
+      }
     }
   }
 
-  button[mat-raised-button][color="accent"] {
-    margin-top: 1.5rem; // Espacio superior para el botón de crear
-    display: block; // Para que ocupe todo el ancho o lo controle mejor
-    width: fit-content; // Ajusta el ancho al contenido
-    margin-left: auto;
-    margin-right: auto;
+  .card-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px; // Más espacio entre botones
+    padding-top: 15px; // Espacio superior para separar de la info del cupón
+    border-top: 1px dashed $medium-gray; // Línea divisoria sutil
   }
+}
+
+/* Estilos de botones generales */
+.btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px; // Botones más redondeados
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  text-transform: uppercase; // Texto en mayúsculas
+  letter-spacing: 0.5px;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.btn-primary {
+  background-color: $primary-blue;
+  color: $light-text;
+  &:hover { background-color: darken($primary-blue, 8%); }
+}
+
+.btn-info {
+  background-color: $info-cyan;
+  color: $light-text;
+  &:hover { background-color: darken($info-cyan, 8%); }
+}
+
+.btn-danger {
+  background-color: $danger-red;
+  color: $light-text;
+  &:hover { background-color: darken($danger-red, 8%); }
 }
